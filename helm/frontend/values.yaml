@@ -1,0 +1,38 @@
+replicaCount: 2
+
+image:
+  repository: ghcr.io/kakaotech-19/kakaotech-19/frontend
+  pullPolicy: Always # ifnotPresent: 없을때만 가져와서 업데이트가 안됨
+  tag: "latest"
+
+# cluster ip타입의 내부도메인 형태 http://frontend.default.svc.cluster.local:80
+service:
+  type: ClusterIP # LoadBalancer에서 ClusterIP로 변경
+  port: 80
+
+serviceAccount:
+  create: false
+  name: ""
+
+ingress:
+  enabled: false # 개별 Ingress 설정 비활성화 (공통 Ingress에서 관리)
+
+resources:
+  limits:
+    cpu: 2000m # 최대 2 코어
+    memory: 2Gi # 최대 2Gi 메모리
+  requests:
+    cpu: 1000m # 최소 1 코어
+    memory: 1Gi # 최소 1Gi 메모리
+
+env:
+  - name: NODE_ENV
+    value: "production"
+  - name: NEXT_PUBLIC_API_URL # 우리서비스 도메인이름을 넣는게 맞음 - 브라우저 환경변수용L
+    value: ""
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
