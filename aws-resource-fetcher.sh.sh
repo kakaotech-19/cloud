@@ -16,6 +16,9 @@ check_and_print() {
   fi
 }
 
+# IAM 사용자 조회
+check_and_print "IAM Users" "aws iam list-users --query \"Users[*].[UserName, UserId, Arn]\" --output table"
+
 # EC2 인스턴스 조회
 check_and_print "EC2 Instances" "aws ec2 describe-instances --query \"Reservations[*].Instances[*].[InstanceId, State.Name, PublicIpAddress]\" --output table"
 
@@ -36,9 +39,6 @@ check_and_print "Lambda Functions" "aws lambda list-functions --query \"Function
 
 # VPC 조회
 check_and_print "VPCs" "aws ec2 describe-vpcs --query \"Vpcs[*].[VpcId, Tags[?Key=='Name'].Value | [0], CidrBlock, State]\" --output table"
-
-# IAM 사용자 조회
-check_and_print "IAM Users" "aws iam list-users --query \"Users[*].[UserName, UserId, Arn]\" --output table"
 
 # DynamoDB 테이블 조회
 check_and_print "DynamoDB Tables" "aws dynamodb list-tables --query \"TableNames\" --output table"
