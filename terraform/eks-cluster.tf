@@ -3,7 +3,7 @@ module "eks" {
   version         = "~> 18.0"
   cluster_name    = "eks-cluster"
   cluster_version = "1.31"
-  subnet_ids      = module.vpc.public_subnets
+  subnet_ids      = module.vpc.private_subnets
   vpc_id          = module.vpc.vpc_id
 
   # ingress를 위한 클러스터 엔드포인트 접근 허용
