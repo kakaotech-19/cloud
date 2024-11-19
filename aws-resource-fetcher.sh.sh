@@ -46,9 +46,9 @@ check_and_print "DynamoDB Tables" "aws dynamodb list-tables --query \"TableNames
 # EKS 클러스터 상세 조회
 eks_clusters=$(aws eks list-clusters --query "clusters" --output text)
 if [ -n "$eks_clusters" ]; then
-  echo -e "\n==== EKS Clusters Details ===="
+  echo -e "EKS Clusters Details [yaml]"
   for cluster in $eks_clusters; do
     echo -e "\nDetails for Cluster: $cluster"
-    aws eks describe-cluster --name $cluster --query "cluster.[name, status, endpoint, platformVersion, resourcesVpcConfig.subnetIds]" --output table
+    aws eks describe-cluster --name eks-cluster --query "cluster.[name, status, endpoint, platformVersion, resourcesVpcConfig.subnetIds]" --output yaml
   done
 fi
