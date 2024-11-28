@@ -9,9 +9,8 @@ module "eks" {
   # ingress를 위한 클러스터 엔드포인트 접근 허용
   cluster_endpoint_public_access = true
 
-  # 클러스터 및 노드 보안 그룹 추가
-  cluster_security_group_id = aws_security_group.eks_cluster_sg.id
-  node_security_group_id    = aws_security_group.eks_node_sg.id
+  # 클러스터 보안 그룹 추가
+  cluster_additional_security_group_ids=[aws_security_group.eks_cluster_sg.id]
 
   # EKS 클러스터 IAM 역할
   iam_role_name = aws_iam_role.eks_cluster_role.name
@@ -27,6 +26,9 @@ module "eks" {
       desired_size = 2
 
       iam_role_arn = aws_iam_role.eks_worker_node_role.arn
+      vpc_security_group_ids= [aws_security_group.eks_node_sg.id]
+
+      key_name      = "todak" # 이미 생성된 Key Pair 이름
     }
   }
 }

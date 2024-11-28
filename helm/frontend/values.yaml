@@ -6,12 +6,12 @@ image:
   pullPolicy: Always
 
 service:
-  type: LoadBalancer
+  type: ClusterIP
   port: 80
 
 ingress:
-  enabled: false
-  host: react-app.example.com
+  enabled: true
+  host: a37c2f75eaf20452f9f4e53a1fbaf13e-68240263.ap-northeast-2.elb.amazonaws.com
   pathType: Prefix
   annotations: {}
 

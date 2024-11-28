@@ -11,7 +11,7 @@ service:
 
 ingress:
   enabled: false
-  host: spring-backend.local
+  host: a813c2fe7207c4add8e3e5bbb94ba114-337815044.ap-northeast-2.elb.amazonaws.com
 
 resources:
   limits:
