@@ -1,23 +1,26 @@
 replicaCount: 2
 
 image:
-  repository: ghcr.io/kakaotech-19/kakaotech-19/todaktodak-api
+  repository: hanyohan/back-test-app
+  tag: latest
   pullPolicy: Always
-  tag: "latest"
 
-# cluster ip타입의 내부도메인 형태 http://backend.default.svc.cluster.local:8080/api/v1
 service:
-  type: ClusterIP
+  type: LoadBalancer
   port: 8080
+
+ingress:
+  enabled: false
+  host: spring-backend.local
 
 resources:
   limits:
-    cpu: 2000m # 최대 2 코어
-    memory: 2Gi # 최대 2Gi 메모리
+    cpu: "500m"
+    memory: "512Mi"
   requests:
-    cpu: 1000m # 최소 1 코어
-    memory: 1Gi # 최소 1Gi 메모리
+    cpu: "250m"
+    memory: "256Mi"
 
-env:
-  - name: SPRING_PROFILES_ACTIVE
-    value: "prod"
+nodeSelector: {}
+tolerations: []
+affinity: {}
