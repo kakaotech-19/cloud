@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-production
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: gksdygks359@naver.com  # 만료 알림을 받을 이메일
+    privateKeySecretRef:
+      name: letsencrypt-production-key  # ACME 키를 저장할 Secret 이름
+    solvers:
+      - http01:
+          ingress:
+            class: nginx  # NGINX Ingress Controller 사용

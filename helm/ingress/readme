@@ -1,0 +1,12 @@
+팁
+1. ingress 리소스는 라우팅 할 Service랑 같은 NameSpace랑 있어야 함.
+2. 똑같은 도메인에 대한 경로 기반 라우팅 대상들은 같은 ingress yaml 파일에 있어야 함.
+3. ingressClassName: nginx 옵션을 지정 해줘야 잘 작동한다.
+
+ex)
+
+ingress 리소스 생성
+kubectl apply -f ingress.yaml -n dev
+
+ingress 리소스 삭제
+kubectl delete -f ingress.yaml -n dev

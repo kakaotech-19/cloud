@@ -1,0 +1,32 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: dev-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-production"  # ClusterIssuer 이름
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"   # HTTP -> HTTPS 리다이렉트
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"    # 백엔드와 HTTP 통신
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - todaktodak.site
+      secretName: todaktodak-site-tls  # 인증서를 저장할 Secret 이름
+  rules:
+    - host: todaktodak.site
+      http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: backend-service
+                port:
+                  number: 8081
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend-service
+                port:
+                  number: 80

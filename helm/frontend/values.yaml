@@ -10,8 +10,9 @@ service:
   port: 80
 
 ingress:
-  enabled: true
-  host: a37c2f75eaf20452f9f4e53a1fbaf13e-68240263.ap-northeast-2.elb.amazonaws.com
+  enabled: false
+  host: aa64dddc542a047cc9ff55fbf673ea45-814616462.ap-northeast-2.elb.amazonaws.com
+
   pathType: Prefix
   annotations: {}
 
