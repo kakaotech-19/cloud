@@ -6,12 +6,12 @@ image:
   pullPolicy: Always
 
 service:
-  type: LoadBalancer
-  port: 8080
+  type: ClusterIP
+  port: 8081
 
 ingress:
   enabled: false
-  host: a813c2fe7207c4add8e3e5bbb94ba114-337815044.ap-northeast-2.elb.amazonaws.com
+  host: aa64dddc542a047cc9ff55fbf673ea45-814616462.ap-northeast-2.elb.amazonaws.com
 
 resources:
   limits:
