@@ -38,11 +38,11 @@ spec:
                 secretKeyRef:
                   name: aws-todak-secret
                   key: AI_IMAGE_REPLICATE_API_TOKEN
-            - name: OPENAPI_KEY
+            - name: OPENAI_KEY
               valueFrom:
                 secretKeyRef:
                   name: aws-todak-secret
-                  key: AI_IMAGE_OPENAPI_KEY
+                  key: AI_IMAGE_OPENAI_KEY
           resources:
             limits:
               cpu: {{ .Values.resources.limits.cpu }}
