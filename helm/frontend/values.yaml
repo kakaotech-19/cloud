@@ -1,31 +1,35 @@
+# Replica 설정
 replicaCount: 2
 
+# 이미지 설정
 image:
-  repository: hanyohan/react-test-app
+  repository: ghcr.io/kakaotech-19/kakaotech-19/frontend-dev
+#  repository: hanyohan/react-test-app # 테스트 용
   tag: latest
   pullPolicy: Always
 
+# 서비스 설정
 service:
   type: ClusterIP
   port: 80
 
-ingress:
-  enabled: false
-  host: aa64dddc542a047cc9ff55fbf673ea45-814616462.ap-northeast-2.elb.amazonaws.com
-
-  pathType: Prefix
-  annotations: {}
-
+# Resource Limit
 resources:
-  limits:
+  limits: # 컨테이너가 사용할 수 있는 최대 리소스.
     cpu: "500m"
     memory: "256Mi"
-  requests:
+  requests: # 컨테이너가 사용할 수 있는 최소 리소스.
     cpu: "250m"
     memory: "128Mi"
 
+# Pod Scheduling
 nodeSelector: {}
-
 tolerations: []
-
 affinity: {}
+
+# RollingUpdate 전략 설정
+strategy:
+  rollingUpdate:
+    maxUnavailable: 1  # 업데이트 중 사용할 수 없는 최대 Pod 수
+    maxSurge: 1         # 업데이트 중 생성할 추가 Pod 수
+

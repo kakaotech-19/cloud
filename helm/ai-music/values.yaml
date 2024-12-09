@@ -1,22 +1,19 @@
-replicaCount: 2
+replicas: 2
 
 image:
   repository: ghcr.io/kakaotech-19/kakaotech-19/ai-music
+  tag: latest
   pullPolicy: Always
-  tag: "latest"
 
 service:
-  type: ClusterIP
-  port: 8000
+  type: ClusterIP # ClusterIP 또는 LoadBalancer 또는 NodePort 로 변경 가능
+  port: 5003
 
+# Resource Limit
 resources:
   limits:
-    cpu: 500m
-    memory: 512Mi
+    cpu: "500m"
+    memory: "512Mi"
   requests:
-    cpu: 250m
-    memory: 256Mi
-
-env:
-  - name: ENVIRONMENT
-    value: "production"
+    cpu: "200m"
+    memory: "256Mi"

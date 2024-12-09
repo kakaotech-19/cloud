@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-deployment
+  name: {{ .Chart.Name }}-deployment
   labels:
     app: {{ .Chart.Name }}
 spec:
@@ -18,7 +18,31 @@ spec:
         - name: ai-server
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           ports:
-            - containerPort: 5000
+            - containerPort: {{ .Values.service.port }}
+          envFrom: # ConfigMap의 모든 키-값을 환경 변수로 사용
+            - configMapRef:
+                name: {{ .Chart.Name }}-config
+          env:
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: aws-todak-secret
+                  key: AI_AWS_ACCESS_KEY_ID
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: aws-todak-secret
+                  key: AI_AWS_SECRET_ACCESS_KEY
+            - name: REPLICATE_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: aws-todak-secret
+                  key: AI_IMAGE_REPLICATE_API_TOKEN
+            - name: OPENAPI_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: aws-todak-secret
+                  key: AI_IMAGE_OPENAPI_KEY
           resources:
             limits:
               cpu: {{ .Values.resources.limits.cpu }}
