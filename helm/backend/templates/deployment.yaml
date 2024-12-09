@@ -1,11 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-deployment
+  name: {{ .Chart.Name }}-deployment
   labels:
     app: {{ .Chart.Name }}
 spec:
   replicas: {{ .Values.replicaCount }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: {{ .Values.updateStrategy.rollingUpdate.maxUnavailable }}
+      maxSurge: {{ .Values.updateStrategy.rollingUpdate.maxSurge }}
   selector:
     matchLabels:
       app: {{ .Chart.Name }}
@@ -20,12 +25,70 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         ports:
         - containerPort: {{ .Values.service.port }}
+        envFrom:
+          - configMapRef:
+              name: {{ .Chart.Name }}-config
         env:
-        - name: SPRING_PROFILES_ACTIVE
-          valueFrom:
-            configMapKeyRef:
-              name: {{ .Release.Name }}-config
-              key: SPRING_PROFILES_ACTIVE
+          - name: MY_POD_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+          - name: POSTGRESQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: aws-todak-secret
+                key: BACKEND_POSTGRESQL_PASSWORD
+          - name: POSTGRESQL_USER
+            valueFrom:
+              secretKeyRef:
+                name: aws-todak-secret
+                key: BACKEND_POSTGRESQL_USER
+          - name: JWT_SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: aws-todak-secret
+                key: BACKEND_JWT_SECRET_KEY
+          - name: KAKAO_OAUTH_CLIENT_ID
+            valueFrom:
+              secretKeyRef:
+                name: aws-todak-secret
+                key: BACKEND_KAKAO_OAUTH_CLIENT_ID
+          - name: KAKAO_OAUTH_CLIENT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: aws-todak-secret
+                key: BACKEND_KAKAO_OAUTH_CLIENT_SECRET
+          - name: NAVER_OAUTH_CLIENT_ID
+            valueFrom:
+              secretKeyRef:
+                name: aws-todak-secret
+                key: BACKEND_NAVER_OAUTH_CLIENT_ID
+          - name: NAVER_OAUTH_CLIENT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: aws-todak-secret
+                key: BACKEND_NAVER_OAUTH_CLIENT_SECRET
+          - name: GOOGLE_OAUTH_CLIENT_ID
+            valueFrom:
+              secretKeyRef:
+                name: aws-todak-secret
+                key: BACKEND_GOOGLE_OAUTH_CLIENT_ID
+          - name: GOOGLE_OAUTH_CLIENT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: aws-todak-secret
+                key: BACKEND_GOOGLE_OAUTH_CLIENT_SECRET
+          - name: AWS_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: aws-todak-secret
+                key: BACKEND_AWS_ACCESS_KEY
+          - name: AWS_SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: aws-todak-secret
+                key: BACKEND_AWS_SECRET_KEY
+
         resources:
           limits:
             memory: {{ .Values.resources.limits.memory }}
@@ -33,6 +96,7 @@ spec:
           requests:
             memory: {{ .Values.resources.requests.memory }}
             cpu: {{ .Values.resources.requests.cpu }}
+
       nodeSelector: {{ toYaml .Values.nodeSelector | nindent 8 }}
       tolerations: {{ toYaml .Values.tolerations | nindent 8 }}
       affinity: {{ toYaml .Values.affinity | nindent 8 }}

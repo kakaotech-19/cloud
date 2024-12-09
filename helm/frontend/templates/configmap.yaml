@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Chart.Name }}-config
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Chart.Name }}
+data:
+  {{- if eq .Release.Namespace "dev" }}
+  {{- end }}
+
+  {{- if eq .Release.Namespace "prod" }}
+  {{- end }}

@@ -1,13 +1,16 @@
 replicas: 2
 
 image:
-  repository: hanyohan/ai-test-app
+  repository: ghcr.io/kakaotech-19/kakaotech-19/ai-image
+#  repository: hanyohan/ai-test-app # 테스트용
   tag: latest
   pullPolicy: Always
 
 service:
-  type: ClusterIP # LoadBalancer 또는 NodePort로 변경 가능
+  type: LoadBalancer # ClusterIP 또는 LoadBalancer 또는 NodePort 로 변경 가능
+  port: 5001
 
+# Resource Limit
 resources:
   limits:
     cpu: "500m"
@@ -15,3 +18,4 @@ resources:
   requests:
     cpu: "200m"
     memory: "256Mi"
+

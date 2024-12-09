@@ -1,17 +1,13 @@
 replicaCount: 2
 
 image:
-  repository: hanyohan/back-test-app
+  repository: ghcr.io/kakaotech-19/kakaotech-19/todaktodak-api
   tag: latest
   pullPolicy: Always
 
 service:
   type: ClusterIP
-  port: 8081
-
-ingress:
-  enabled: false
-  host: aa64dddc542a047cc9ff55fbf673ea45-814616462.ap-northeast-2.elb.amazonaws.com
+  port: 8080
 
 resources:
   limits:
@@ -24,3 +20,8 @@ resources:
 nodeSelector: {}
 tolerations: []
 affinity: {}
+
+updateStrategy:
+  rollingUpdate:
+    maxUnavailable: 1 # 업데이트 중 비활성화 가능한 최대 Pod 수 (절대값 또는 퍼센트)
+    maxSurge: 1        # 업데이트 중 생성 가능한 추가 Pod 수 (절대값 또는 퍼센트)
