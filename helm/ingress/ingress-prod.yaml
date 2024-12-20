@@ -2,6 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: prod-ingress
+  namespace: prod
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-production"  # ClusterIssuer 이름
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"   # HTTP -> HTTPS 리다이렉트
@@ -17,6 +18,13 @@ spec:
       http:
         paths:
           - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: backend-service
+                port:
+                  number: 8080
+          - path: /oauth2/authorization
             pathType: Prefix
             backend:
               service:

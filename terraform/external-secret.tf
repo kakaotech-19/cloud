@@ -1,16 +1,18 @@
 # Kubernetes 에서 민감한 정보들을 AWS Secret Manager을 통해서 관리하고, 가져와서 사용하기 위해 필요한 리소스들이다.
 
+
 data "aws_eks_cluster" "eks" {
-  name = "eks-cluster"
+  name = module.eks.cluster_name
 }
+
 data "aws_eks_cluster_auth" "eks" {
-  name = data.aws_eks_cluster.eks.name
+  name = module.eks.cluster_name
 }
 
 # Kubernetes Provider 설정
 provider "kubernetes" {
-  host                   = data.aws_eks_cluster.eks.endpoint
-  cluster_ca_certificate = base64decode(data.aws_eks_cluster.eks.certificate_authority[0].data)
+  host                   = module.eks.cluster_endpoint
+  cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
   token                  = data.aws_eks_cluster_auth.eks.token
 }
 

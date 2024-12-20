@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Chart.Name }}-deployment
+  namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Chart.Name }}
 spec:
@@ -16,6 +17,8 @@ spec:
       app: {{ .Chart.Name }}
   template:
     metadata:
+      annotations:
+        rollme: {{ randAlphaNum 5 | quote }}
       labels:
         app: {{ .Chart.Name }}
     spec:
