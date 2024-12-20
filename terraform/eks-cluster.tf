@@ -31,4 +31,5 @@ module "eks" {
       key_name      = "todak" # 이미 생성된 Key Pair 이름
     }
   }
+
 }

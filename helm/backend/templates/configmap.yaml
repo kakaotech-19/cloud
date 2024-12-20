@@ -7,10 +7,10 @@ metadata:
     app: {{ .Chart.Name }}
 data:
   {{- if eq .Release.Namespace "dev" }}
-  AI_SERVER_IMAGE_URL_DOMAIN: "http://ai-image:5001"
-  AI_SERVER_TEXT_URL_DOMAIN: "http://ai-text:5002"
-  AI_SERVER_BGM_URL_DOMAIN: "http://ai-music:5003"
-  POSTGRESQL_URL: "jdbc:postgresql://todak-postgresql-db.cdkuy0acswaa.ap-northeast-2.rds.amazonaws.com:5432/postgres"
+  AI_SERVER_IMAGE_URL_DOMAIN: "http://ai-image-service:5001"
+  AI_SERVER_TEXT_URL_DOMAIN: "http://ai-text-service:5002"
+  AI_SERVER_BGM_URL_DOMAIN: "http://ai-music-service:5003"
+  POSTGRESQL_URL: "jdbc:postgresql://db.todaktodak.site:5432/postgres"
   ACCESS_EXPIRE_TIME: "1800000"
   REFRESH_EXPIRE_TIME: "604800000"
   KAKAO_OAUTH_REDIRECT_URI: "https://dev.todaktodak.site/login/oauth2/code/kakao" # nginx 포트 기반 라우팅 알아봐야 됨.
@@ -18,7 +18,7 @@ data:
   GOOGLE_OAUTH_REDIRECT_URI: "https://dev.todaktodak.site/login/oauth2/code/google"
   MAIL_USERNAME: "vrdhan212@gmail.com"
   MAIL_PASSWORD: "anbcrfqtxvynilyg"
-  REDIS_HOST: "localhost"
+  REDIS_HOST: "redis.todaktodak.site"
   REDIS_PORT: "6379"
   AWS_REGION: "ap-northeast-2"
   AWS_S3_BUCKET_NAME: "kakaotech19-todak"
