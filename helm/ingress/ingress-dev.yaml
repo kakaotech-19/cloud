@@ -7,7 +7,6 @@ metadata:
     cert-manager.io/cluster-issuer: "letsencrypt-production"  # ClusterIssuer 이름
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"   # HTTP -> HTTPS 리다이렉트
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"    # 백엔드와 HTTP 통신
-
 spec:
   ingressClassName: nginx
   tls:
